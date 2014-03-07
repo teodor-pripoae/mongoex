@@ -4,7 +4,7 @@ defmodule Mongoex.Server do
     setup_pool
   end
 
-  def setup(options // []) do
+  def setup(options \\ []) do
     :ets.new(:mongoex_server, [:set, :protected, :named_table])
     :ets.insert(:mongoex_server, {:mongoex_server, Keyword.merge(default_options, options)})
   end
@@ -29,7 +29,7 @@ defmodule Mongoex.Server do
     execute(fn() -> :mongo.find_one(table, selector) end)
   end
 
-  def find_all(table, selector, options // []) do
+  def find_all(table, selector, options \\ []) do
     skip = options[:skip]
     if skip == nil do
       skip = 0
@@ -75,7 +75,7 @@ defmodule Mongoex.Server do
         mongo_do = Module.function(:mongo, :do, 5)
         mongo_do.(:safe, :master, conn, config[:database], auth)
       end
-      
+
       {seq, [conn|acc]}
     end
 
@@ -85,7 +85,7 @@ defmodule Mongoex.Server do
 
   defp get_connection_from_pool do
     pool = :ets.lookup(:mongoex_pool, :mongoex_pool)[:mongoex_pool]
- 
+
     case Enum.count(pool) do
       0 ->
         {:error, :no_available_connections}
