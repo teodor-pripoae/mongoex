@@ -1,9 +1,24 @@
 box: bitwalker/elixir@0.0.5
 services:
-  - wercker/mongodb@1.0.1
+    - wercker/mongodb@1.0.1
 build:
-  steps:
-    - script:
-      deps: mix deps.get
-      compile: mix compile
-      test: mix test
+    steps:
+        - script:
+            name: set env vars
+            code: |
+                export MIX_ENV=test
+        - script:
+            name: mix get deps
+            code: |
+                cd $WERCKER_SOURCE_DIR
+                mix deps.get
+
+        - script:
+            name: mix compile
+            code: |
+                mix compile
+
+        - script:
+            name: mix test
+            code: |
+                mix test
