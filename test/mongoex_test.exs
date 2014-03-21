@@ -4,13 +4,11 @@ defmodule MongoexTest do
   use ExUnit.Case
 
   setup_all do
-    Mongoex.Server.setup(address: '127.0.0.1', port: 27017, database: :your_app)
+    host = to_char_list(System.get_env("WERCKER_MONGODB_HOST") || "127.0.0.1")
+    port = binary_to_integer(System.get_env("WERCKER_MONGODB_PORT") || "27017")
+    Mongoex.Server.setup(address: host, port: port, database: :mongoex)
     Mongoex.Server.start
     :ok
-  end
-
-  test "the truth" do
-    assert true
   end
 
   test 'creates a new user record' do
