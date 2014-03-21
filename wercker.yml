@@ -1,0 +1,9 @@
+box: bitwalker/elixir@0.0.5
+services:
+  - wercker/mongodb@1.0.1
+build:
+  steps:
+    - script:
+      deps: mix deps.get
+      compile: mix compile
+      test: mix test
