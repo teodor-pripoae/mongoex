@@ -35,7 +35,7 @@ defmodule Mongoex.Base do
         Mongoex.Server.delete_all(table_name, selector)
       end
 
-      def delete_all(selector // []) do
+      def delete_all(selector \\ []) do
         Mongoex.Server.delete_all(table_name, selector)
       end
 
@@ -43,7 +43,7 @@ defmodule Mongoex.Base do
         delete(record)
       end
 
-      def destroy_all(selector // []) do
+      def destroy_all(selector \\ []) do
         delete_all(selector)
       end
 
@@ -55,7 +55,7 @@ defmodule Mongoex.Base do
         end
       end
 
-      def find_all(selector, options // []) do
+      def find_all(selector, options \\ []) do
         {:ok, res} = Mongoex.Server.find_all(table_name, selector, options)
         case :mongo_cursor.rest(res) do
           [] ->
@@ -65,7 +65,7 @@ defmodule Mongoex.Base do
         end
       end
 
-      def count(selector // []) do
+      def count(selector \\ []) do
         {:ok, res} = Mongoex.Server.count(table_name, selector)
         res
       end

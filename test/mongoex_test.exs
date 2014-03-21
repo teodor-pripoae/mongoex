@@ -1,5 +1,4 @@
-Code.require_file "../test_helper.exs", __FILE__
-Code.require_file "../fixtures/user.exs", __FILE__
+Code.require_file "fixtures/user.exs", __DIR__
 
 defmodule MongoexTest do
   use ExUnit.Case
