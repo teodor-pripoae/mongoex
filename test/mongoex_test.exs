@@ -14,6 +14,8 @@ defmodule MongoexTest do
   test 'creates a new user record' do
     user = User.new(name: "skywalker", age: 25).save
     refute(nil == user._id)
+    assert(user.name == "skywalker")
+    assert(user.age == 25)
   end
 
   test 'sets the fields properly' do
