@@ -2,6 +2,10 @@
 
 Mongoex is an ODM-like module for MongoDb in Elixir.
 
+
+[![wercker status](https://app.wercker.com/status/6c14830ab4a40e85d42f96062e93aa20/m/ "wercker status")](https://app.wercker.com/project/bykey/6c14830ab4a40e85d42f96062e93aa20)
+
+
 This is still under development.
 
 ## Usage
