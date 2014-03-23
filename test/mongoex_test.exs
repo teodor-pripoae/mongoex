@@ -1,4 +1,5 @@
 Code.require_file "fixtures/user.exs", __DIR__
+Code.require_file "fixtures/article.exs", __DIR__
 
 defmodule MongoexTest do
   use ExUnit.Case
@@ -24,4 +25,12 @@ defmodule MongoexTest do
     assert(user.age == 25)
   end
 
+  test 'it sets table name' do
+    assert(Article.table_name == :blog_entries)
+  end
+
+  test "creating articles works" do
+    article = Article.new(title: "This is a blog post").save
+    refute(nil == article._id)
+  end
 end

@@ -1,7 +1,12 @@
 defmodule Mongoex.Base do
-  defmacro __using__(_) do
+  defmacro __using__(opts) do
+    setup(opts)
+  end
+
+  defp setup(opts) do
     quote do
       import Mongoex.Base.Fields
+      unquote(generate_table_name(opts[:table_name]))
 
       def new_record?(record) do
         !record._id
@@ -70,10 +75,6 @@ defmodule Mongoex.Base do
         res
       end
 
-      defp table_name do
-        binary_to_atom(String.downcase(List.last(String.split inspect(__MODULE__), ".", global: true)))
-      end
-
       defp record_to_tuple(record) do
         keywords = record.to_keywords
         if record.new_record? do
@@ -100,6 +101,20 @@ defmodule Mongoex.Base do
         {even,odds} = List.foldl list_zipped_even_odd, {[],[]}, fn({v,i}, {even,odds}) -> if i==0, do: {Enum.concat(even,[v]),odds}, else: {even,Enum.concat(odds,[v])} end
         Enum.zip even, odds
       end
+    end
+  end
+
+  def generate_table_name(nil) do
+    quote do
+      def table_name do
+        binary_to_atom(String.downcase(List.last(String.split inspect(__MODULE__), ".", global: true)))
+      end
+    end
+  end
+
+  def generate_table_name(table_name) do
+    quote do
+      def table_name, do: unquote(table_name)
     end
   end
 end
