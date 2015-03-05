@@ -107,7 +107,7 @@ defmodule Mongoex.Base do
   def generate_table_name(nil) do
     quote do
       def table_name do
-        binary_to_atom(String.downcase(List.last(String.split inspect(__MODULE__), ".", global: true)))
+        Mix.Utils.underscore(List.last(Module.split(__MODULE__)))
       end
     end
   end
