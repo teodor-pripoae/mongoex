@@ -80,13 +80,14 @@ defmodule Mongoex.Base do
         if record.new_record? do
           keywords = Keyword.delete keywords, :_id
         end
-        List.to_tuple List.flatten Enum.map keywords, fn(x) -> tuple_to_list(x) end
+        List.to_tuple List.flatten Enum.map keywords, fn(x) -> Tuple.to_list(x) end
       end
 
       defp result_to_record(result) do
         if size_is_even?(result) do
           list = tuple_to_keyvalue(result)
-          new(list)
+          __MODULE__(list)
+          #new(list)
         end
       end
 
@@ -95,7 +96,7 @@ defmodule Mongoex.Base do
       end
 
       defp tuple_to_keyvalue(tuple) do
-        list = tuple_to_list(tuple)
+        list = Tuple.to_list(tuple)
         even_odd = Enum.map :lists.seq(0, length(list)-1), fn(x) -> rem(x,2) end
         list_zipped_even_odd = Enum.zip list, even_odd
         {even,odds} = List.foldl list_zipped_even_odd, {[],[]}, fn({v,i}, {even,odds}) -> if i==0, do: {Enum.concat(even,[v]),odds}, else: {even,Enum.concat(odds,[v])} end
